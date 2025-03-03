@@ -1,12 +1,26 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    { path: 'categories', loadComponent: () => import('../app/shared/components/category/category-list/category-list.component').then(m => m.CategoryListComponent)},
-    
-    { path: 'clients', 
-        loadComponent: () => 
-            import(
-                '../app/shared/components/clients/client-list/client-list.component'
-            ).then(m => m.ClientListComponent)
-    },
+  { 
+    path: '', 
+    redirectTo: 'home', 
+    pathMatch: 'full' 
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./shared/components/home/home.component').then(c => c.HomeComponent)
+  },
+  {
+    path: 'categories',
+    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule)
+  },
+  {
+    path: 'clients',
+    loadChildren: () => import('./modules/client/client.module').then(m => m.ClientModule)
+  },
+  {
+    path: 'loans',
+    loadChildren: () => import('./modules/loans/loans.module').then(m => m.LoansModule)
+  }
 ];

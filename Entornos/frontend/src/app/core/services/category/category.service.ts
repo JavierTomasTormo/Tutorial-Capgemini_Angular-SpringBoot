@@ -17,8 +17,8 @@ export class CategoryService {
 
 
   getCategories(): Observable<Category[]> {
-    // return of(CATEGORY_DATA);
-    return this.http.get<Category[]>(this.baseUrl);
+    return of(CATEGORY_DATA);
+    // return this.http.get<Category[]>(this.baseUrl);
   }
 
     saveCategory(category: Category): Observable<Category> {
