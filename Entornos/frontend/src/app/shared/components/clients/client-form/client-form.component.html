@@ -4,7 +4,7 @@
     <form>
         <mat-form-field>
             <mat-label>Identificador</mat-label>
-            <input type="text" matInput placeholder="Identificador" [(ngModel)]="client.id" name="id" disabled>
+            <input type="text" matInput placeholder="Identificador" [value]="client.id" name="id" disabled>
         </mat-form-field>
 
         <mat-form-field>
@@ -16,6 +16,6 @@
 
     <div class="buttons">
         <button mat-stroked-button (click)="onClose()">Cerrar</button>
-        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">{{ client.id ? 'Actualizar' : 'Crear' }}</button>
     </div>
 </div>
