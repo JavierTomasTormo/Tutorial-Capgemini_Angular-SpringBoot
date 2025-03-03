@@ -1,0 +1,37 @@
+<div class="container">
+    <h2>Clients</h2>
+
+    <button mat-raised-button color="primary" (click)="createClient()">
+        Add New Client
+    </button>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- el Id -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let client">{{client.id}}</mat-cell>
+        </ng-container>
+
+        <!-- nombre del client -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let client">{{client.name}}</mat-cell>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let client">
+                <button mat-icon-button color="primary" (click)="editClient(client)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" (click)="deleteClient(client)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
