@@ -19,26 +19,32 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> findAll() {
         return (List<Client>) this.clientRepository.findAll();
     }
-
+    
+    @Override
+    public Client findById(Long id) {
+        return this.clientRepository.findById(id).orElse(null);
+    }
 
     @Override
-    public void save(Long id, ClientDto dto) throws Exception {
-        Client client;
+    public void create(ClientDto dto) throws Exception {
+        if (this.clientRepository.existsByName(dto.getName())) {
+            throw new Exception("Cliente con el nombre '" + dto.getName() + "' ya existe");
+        }
+        
+        Client client = new Client();
+        client.setName(dto.getName());
+        this.clientRepository.save(client);
+    }
 
-        if (id == null) {
-            if (this.clientRepository.existsByName(dto.getName())) {
-                throw new Exception("Client with name '" + dto.getName() + "' already exists");
-            }
-            client = new Client();
-        } else {
-            client = this.clientRepository.findById(id).orElse(null);
-            if (client == null) {
-                throw new Exception("Client with id " + id + " not found");
-            }
-            
-            if (this.clientRepository.existsByNameAndIdNot(dto.getName(), id)) {
-                throw new Exception("Client with name '" + dto.getName() + "' already exists");
-            }
+    @Override
+    public void update(Long id, ClientDto dto) throws Exception {
+        Client client = this.clientRepository.findById(id).orElse(null);
+        if (client == null) {
+            throw new Exception("Cliente con id " + id + " no se ha encontrado");
+        }
+        
+        if (this.clientRepository.existsByNameAndIdNot(dto.getName(), id)) {
+            throw new Exception("Cliente con el nombre '" + dto.getName() + "' ya existe");
         }
         
         client.setName(dto.getName());
@@ -48,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(Long id) throws Exception {
         if (this.clientRepository.findById(id).orElse(null) == null) {
-            throw new Exception("Client with id " + id + " not found");
+            throw new Exception("Cliente con id " + id + " no se ha encontrado");
         }
         
         this.clientRepository.deleteById(id);
