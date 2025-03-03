@@ -7,8 +7,12 @@ import { Client } from '../../models/client/client.model';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:8080';//TODO: Lunes: Crea y modifica el EndPoint para esto, tienes  la arquitectura de tu backend en notas.
+  private apiUrl = 'http://localhost:8080/clients';
+                                                    //TODO: Lunes: Crea y modifica el EndPoint para esto, 
+                                                    // tienes  la arquitectura de tu backend en notas.
 
+                                                    //TODO: crear el .env para "ofuscar" la url, intalar dotenv y crear el .env.example
+                                                    // para que puedan testearlo sin problema
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Client[]> {
