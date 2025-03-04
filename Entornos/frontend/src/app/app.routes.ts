@@ -1,5 +1,6 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
+import { ErrorComponent } from './shared/components/error/error.component';
 
 export const routes: Routes = [
   { 
@@ -22,5 +23,13 @@ export const routes: Routes = [
   {
     path: 'loans',
     loadChildren: () => import('./modules/loans/loans.module').then(m => m.LoansModule)
-  }
+  },
+  { 
+    path: '404', 
+    component: ErrorComponent 
+  },
+  { 
+    path: '**', 
+    redirectTo: '404' 
+  },
 ];
