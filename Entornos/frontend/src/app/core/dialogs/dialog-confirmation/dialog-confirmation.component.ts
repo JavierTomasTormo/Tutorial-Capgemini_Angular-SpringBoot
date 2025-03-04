@@ -1,11 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, HostListener } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-dialog-confirmation',
     standalone: true,
-    imports: [MatButtonModule],
+    imports: [CommonModule],
     templateUrl: './dialog-confirmation.component.html',
     styleUrl: './dialog-confirmation.component.scss',
 })
@@ -21,9 +21,26 @@ export class DialogConfirmationComponent {
     ngOnInit(): void {
         this.title = this.data.title;
         this.description = this.data.description;
+        
+        document.body.classList.add('dialog-open');
+    }
+    
+    ngOnDestroy(): void {
+        document.body.classList.remove('dialog-open');
     }
 
-    onClose(value = false) {
+    onClose(value = false): void {
         this.dialogRef.close(value);
+    }
+    
+    onBackdropClick(event: MouseEvent): void {
+        if ((event.target as HTMLElement).className === 'dialog-overlay') {
+            this.onClose();
+        }
+    }
+    
+    @HostListener('document:keydown.escape')
+    onEscapePress(): void {
+        this.onClose();
     }
 }

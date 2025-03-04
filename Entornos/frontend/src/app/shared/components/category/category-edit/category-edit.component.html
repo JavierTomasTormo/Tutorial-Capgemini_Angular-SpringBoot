@@ -1,25 +1,55 @@
-<div class="container">
-    @if (category.id) {
-        <h1>Modificar categoría</h1>
-    } @else {
-        <h1>Crear categoría</h1>
-    }
+<div class="modal-overlay" (click)="onBackdropClick($event)">
+    <div class="modal-container">
+        <div class="modal-header" [ngClass]="{'create-header': !category.id, 'edit-header': category.id}">
+            <h2>
+                <span class="header-icon">{{category.id ? '✎' : '+'}}</span>
+                {{category.id ? 'Modificar categoría' : 'Crear nueva categoría'}}
+            </h2>
+            <button class="btn-close" (click)="onClose()" title="Cerrar">×</button>
+        </div>
 
-    <form>
-        <mat-form-field>
-            <mat-label>Identificador</mat-label>
-            <input type="text" matInput placeholder="Identificador" [(ngModel)]="category.id" name="id" disabled>
-        </mat-form-field>
+        <div class="modal-content">
+            <form #categoryForm="ngForm">
+                @if (category.id) {
+                    <div class="form-group">
+                        <label for="categoryId">Identificador</label>
+                        <input type="text" id="categoryId" name="id" 
+                                [(ngModel)]="category.id" disabled
+                                class="form-control disabled">
+                        <small class="form-hint">El identificador no se puede modificar</small>
+                    </div>
+                }
 
-        <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input type="text" matInput placeholder="Nombre de categoría" [(ngModel)]="category.name" name="name" required>
-            <mat-error>El nombre no puede estar vacío</mat-error>
-        </mat-form-field>
-    </form>
+                <div class="form-group">
+                    <label for="categoryName">Nombre de categoría</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="categoryName" name="name" required
+                                [(ngModel)]="category.name" #nameInput="ngModel"
+                                class="form-control" [class.invalid]="(nameInput.invalid && (nameInput.dirty || nameInput.touched)) || duplicateNameError"
+                                placeholder="Ingrese el nombre de la categoría" (blur)="checkDuplicateName()">
+                        <span class="input-icon">🏷️</span>
+                    </div>
+                    @if (nameInput.invalid && (nameInput.dirty || nameInput.touched)) {
+                        <div class="error-message">El nombre de categoría es obligatorio</div>
+                    }
+                    @if (duplicateNameError) {
+                        <div class="error-message">Ya existe una categoría con este nombre</div>
+                    }
+                </div>
+            </form>
+        </div>
 
-    <div class="buttons">
-        <button mat-stroked-button (click)="onClose()">Cerrar</button>
-        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="onClose()">
+                <span class="btn-icon">✕</span>
+                Cancelar
+            </button>
+            <button class="btn-primary" [disabled]="categoryForm.invalid || duplicateNameError" 
+                    [class.disabled]="categoryForm.invalid || duplicateNameError"
+                    (click)="onSave()">
+                <span class="btn-icon">💾</span>
+                Guardar
+            </button>
+        </div>
     </div>
 </div>

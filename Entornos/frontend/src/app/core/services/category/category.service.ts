@@ -4,6 +4,8 @@ import { Category } from '../../models/category/category.model';
 import { CATEGORY_DATA } from '../../models/mock/mock-categories';
 import { HttpClient } from '@angular/common/http';
 import { API_ROUTES } from '../../constants/api.routes';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +28,17 @@ export class CategoryService {
 
   deleteCategory(idCategory: number): Observable<any> {
     return this.http.delete(API_ROUTES.CATEGORIES.DELETE(idCategory));
+  }
+
+
+  checkDuplicateName(name: string, excludeId?: number): Observable<boolean> {
+    return this.getCategories().pipe(
+      map(categories => {
+        return categories.some(category => 
+          category.name.toLowerCase() === name.toLowerCase() && 
+          category.id !== excludeId
+        );
+      })
+    );
   }
 }

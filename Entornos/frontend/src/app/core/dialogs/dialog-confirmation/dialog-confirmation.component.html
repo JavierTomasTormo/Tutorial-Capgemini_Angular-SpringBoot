@@ -1,9 +1,16 @@
-<div class="container">
-    <h1>{{title}}</h1>
-    <div [innerHTML]="description" class="description"></div>
 
-    <div class="buttons">
-        <button mat-stroked-button (click)="onClose()">No</button>
-        <button mat-flat-button color="primary" (click)="onClose(true)">Sí</button>
+<div class="dialog-overlay" (click)="onBackdropClick($event)">
+    <div class="dialog-container">
+      <div class="dialog-header">
+        <h1>{{title}}</h1>
+        <button class="close-button" (click)="onClose()">×</button>
+      </div>
+      <div class="dialog-content">
+        <div [innerHTML]="description" class="description"></div>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn-cancel" (click)="onClose()">No</button>
+        <button class="btn-confirm" (click)="onClose(true)">Sí</button>
+      </div>
     </div>
-</div>    
+  </div>
