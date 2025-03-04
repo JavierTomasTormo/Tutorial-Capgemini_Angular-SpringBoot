@@ -12,6 +12,8 @@ public interface LoanService {
     
     List<Loan> findByArgs(LoanSearchDto searchDto);
 
+    Loan findById(Long id) throws Exception;
+
     void save(LoanDto dto) throws Exception;
 
     void delete(Long id) throws Exception;

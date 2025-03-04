@@ -45,6 +45,31 @@ public class LoanController {
                 .collect(Collectors.toList());
     }
 
+
+    @Operation(summary = "Find By Id", description = "Get One de los prestamos")    
+    @GetMapping("/{id}")
+    public ResponseEntity<LoanDto> findById(@PathVariable Long id) {
+        try {
+            Loan loan = this.loanService.findById(id);
+            
+            if (loan == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            
+            LoanDto loanDto = new LoanDto();
+            loanDto.setId(loan.getId());
+            loanDto.setGameId(loan.getGame().getId());
+            loanDto.setClientId(loan.getClient().getId());
+            loanDto.setLoanDate(loan.getLoanDate());
+            loanDto.setReturnDate(loan.getReturnDate());
+            
+            return new ResponseEntity<>(loanDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     @Operation(summary = "Save", description = "Update del prestamos")
     @PostMapping
     public ResponseEntity<?> save(@RequestBody LoanDto dto) {
