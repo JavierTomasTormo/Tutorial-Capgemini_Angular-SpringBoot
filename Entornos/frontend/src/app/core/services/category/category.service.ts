@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Category } from '../../models/category/category.model';
 import { CATEGORY_DATA } from '../../models/mock/mock-categories';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../enviroments/enviroment';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class CategoryService {
     private http: HttpClient
   ) { }
   
-  private baseUrl = 'http://localhost:8080/category';
+  private baseUrl = `${environment.apiBaseUrl}/categories`;
 
 
   getCategories(): Observable<Category[]> {

@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Client } from '../../models/client/client.model';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:8080/clients';
+  private apiUrl = `${environment.apiBaseUrl}/clients`;
 
-        //TODO: Lunes: Crea y modifica el EndPoint para esto, 
+        //DONE: Lunes: Crea y modifica el EndPoint para esto, 
         // tienes  la arquitectura de tu backend en notes 
         // recuerda que la tienes basada en tu arquitectura hexagonal
-        //del proyecto CareLink.
+        // del proyecto CareLink.
 
-        //TODO: crear el .env para "ofuscar" la url, intalar dotenv
-        //  y crear el .env.example para que puedan testearlo sin problemas
+
+        // DONE implementar los enviroments
 
   constructor(private http: HttpClient) { }
 
