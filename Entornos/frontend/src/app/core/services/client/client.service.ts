@@ -2,41 +2,31 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Client } from '../../models/client/client.model';
-import { environment } from '../../../../enviroments/enviroment';
+import { API_ROUTES } from '../../constants/api.routes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = `${environment.apiBaseUrl}/clients`;
-
-        //DONE: Lunes: Crea y modifica el EndPoint para esto, 
-        // tienes  la arquitectura de tu backend en notes 
-        // recuerda que la tienes basada en tu arquitectura hexagonal
-        // del proyecto CareLink.
-
-
-        // DONE implementar los enviroments
-
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.apiUrl);
+    return this.http.get<Client[]>(API_ROUTES.CLIENTS.GET_ALL);
   }
 
   get(id: number): Observable<Client> {
-    return this.http.get<Client>(`${this.apiUrl}/${id}`);
+    return this.http.get<Client>(`${API_ROUTES.CLIENTS.GET_ALL}/${id}`);
   }
 
   create(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.apiUrl, client);
+    return this.http.post<Client>(API_ROUTES.CLIENTS.CREATE, client);
   }
 
   update(id: number, client: Client): Observable<Client> {
-    return this.http.put<Client>(`${this.apiUrl}/${id}`, client);
+    return this.http.put<Client>(API_ROUTES.CLIENTS.UPDATE(id), client);
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(API_ROUTES.CLIENTS.DELETE(id));
   }
 }
