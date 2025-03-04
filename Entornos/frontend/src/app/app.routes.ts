@@ -1,6 +1,6 @@
-// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { ErrorComponent } from './shared/components/error/error.component';
+import { Error500Component } from './shared/components/error500/error500.component';
 
 export const routes: Routes = [
   { 
@@ -27,6 +27,10 @@ export const routes: Routes = [
   { 
     path: '404', 
     component: ErrorComponent 
+  },
+  { 
+    path: '500', 
+    component: Error500Component 
   },
   { 
     path: '**', 
