@@ -5,7 +5,6 @@ import { API_ROUTES } from '../../constants/api.routes';
 import { Loan } from '../../models/loan/loan.model';
 import { LoanSearchDto } from '../../models/loan/loanSearch.model';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -15,7 +14,7 @@ export class LoanService {
     constructor(private http: HttpClient) { }
 
     getAll(): Observable<Loan[]> {
-        return this.http.get<Loan[]>(this.apiUrl.GET_ALL);
+        return this.http.post<Loan[]>(this.apiUrl.SEARCH, {});
     }
 
     getOne(id: number): Observable<Loan> {

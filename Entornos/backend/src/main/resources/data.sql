@@ -13,5 +13,5 @@ INSERT INTO game(title, age, category_id, author_id) VALUES ('Pandemic', 12, 5, 
 INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (1, 1, '2023-10-01', '2023-10-15');
 INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (2, 2, '2023-10-05', '2023-10-20');
 INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (3, 3, '2023-10-10', '2023-10-25');
-INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (4, 4, '2023-10-15', '2023-10-30');
-INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (5, 5, '2023-10-20', '2023-11-05');
+INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (4, 4, '2025-03-1', '2025-03-10');
+INSERT INTO loan(game_id, client_id, loan_date, return_date) VALUES (5, 5, '2025-03-2', '2025-03-5');
