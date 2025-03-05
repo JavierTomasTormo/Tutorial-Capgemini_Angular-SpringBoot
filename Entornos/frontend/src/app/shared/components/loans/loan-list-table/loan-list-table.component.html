@@ -1,0 +1,34 @@
+<div class="table-wrapper">
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Juego</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Devolución</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+        <tbody>
+        <tr *ngFor="let loan of loans">
+            <td>{{loan.id}}</td>
+            <td>{{loan.clientName}}</td>
+            <td>{{loan.gameTitle}}</td>
+            <td>{{loan.loanDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{loan.returnDate | date:'dd/MM/yyyy'}}</td>
+            <td class="actions-cell">
+                <button class="action-button edit" title="Editar préstamo">
+                    <span class="action-icon">✎</span>
+                </button>
+                <button class="action-button delete" (click)="onDeleteLoan(loan)" title="Eliminar préstamo">
+                    <span class="action-icon">✕</span>
+                </button>
+            </td>
+        </tr>
+            <tr *ngIf="loans.length === 0">
+                <td colspan="6" class="no-data">No hay préstamos registrados</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

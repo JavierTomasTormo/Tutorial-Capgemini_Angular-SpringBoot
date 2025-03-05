@@ -1,1 +1,16 @@
-<p>loan-list works!</p>
+<div class="loan-container">
+  <h2>Préstamos</h2>
+
+  <app-loan-filters
+    [games]="games"
+    [clients]="clients"
+    [filters]="filters"
+    (applyFilters)="applyFilters()"
+    (clearFilters)="clearFilters()">
+  </app-loan-filters>
+
+  <app-loan-list-table
+    [loans]="loans"
+    (deleteLoan)="deleteLoan($event)">
+  </app-loan-list-table>
+</div>

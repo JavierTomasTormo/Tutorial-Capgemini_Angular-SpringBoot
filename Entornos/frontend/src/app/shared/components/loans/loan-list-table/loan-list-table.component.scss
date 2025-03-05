@@ -1,73 +1,4 @@
-.loan-container {
-  padding: 20px;
-  margin: 20px;
-  
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .filters-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-end;
-    
-    .form-group {
-      flex: 1;
-      min-width: 200px;
-      
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 600;
-      }
-      
-      .form-control {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-    }
-    
-    .buttons-group {
-      margin-left: 10px;
-      display: flex;
-      gap: 10px;
-    }
-  }
-  
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    
-    &:hover {
-      background-color: #0056b3;
-    }
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    margin-left: 10px;
-
-    &:hover {
-      background-color: #5a6268;
-    }
-  }
-  
-  .table-wrapper {
+.table-wrapper {
     background: white;
     border-radius: 12px;
     overflow: hidden;
@@ -77,12 +8,12 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    
+  
     th, td {
       padding: 16px 20px;
       text-align: left;
     }
-    
+  
     th {
       background-color: #f7f9fc;
       font-weight: 600;
@@ -91,25 +22,25 @@
       font-size: 13px;
       border-bottom: 1px solid #e0e6ed;
     }
-    
+  
     tr {
       border-bottom: 1px solid #e0e6ed;
-      
+  
       &:last-child {
         border-bottom: none;
       }
-      
+  
       &:hover {
         background-color: rgba(63, 81, 181, 0.04);
       }
     }
-    
+  
     .actions-cell {
       display: flex;
       gap: 8px;
       justify-content: flex-end;
     }
-    
+  
     .action-button {
       width: 36px;
       height: 36px;
@@ -121,34 +52,34 @@
       cursor: pointer;
       transition: all 0.2s;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      
+  
       &:hover {
         transform: scale(1.1);
       }
-      
+  
       &:active {
         transform: scale(0.95);
       }
-      
+  
       &.edit {
         background: #4fc3f7;
         color: white;
-        
+  
         &:hover {
           background: #29b6f6;
         }
       }
-      
+  
       &.delete {
         background: #ff5252;
         color: white;
-        
+  
         &:hover {
           background: #ff1744;
         }
       }
     }
-    
+  
     .no-data {
       text-align: center;
       padding: 30px;
@@ -156,4 +87,3 @@
       font-style: italic;
     }
   }
-}
