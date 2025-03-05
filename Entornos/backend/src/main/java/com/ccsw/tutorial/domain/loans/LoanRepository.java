@@ -31,4 +31,11 @@ public interface LoanRepository extends CrudRepository<Loan, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    @Query("select l from Loan l where l.client.id = :clientId and l.loanDate <= :endDate and l.returnDate >= :startDate")
+    List<Loan> findByClientAndDateRange(
+            @Param("clientId") Long clientId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }

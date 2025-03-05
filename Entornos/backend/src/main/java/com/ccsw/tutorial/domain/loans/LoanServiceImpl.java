@@ -75,10 +75,17 @@ public class LoanServiceImpl implements LoanService {
             throw new Exception("El juego ya está prestado en ese rango de fechas");
         }
 
-        List<Loan> clientLoans = this.loanRepository.findByClientId(dto.getClientId());
-        if (clientLoans.size() >= 2 && (dto.getId() == null || 
-                clientLoans.stream().noneMatch(l -> l.getId().equals(dto.getId())))) {
-            throw new Exception("El Cliente ya tiene el número máximo de préstamos");
+        List<Loan> clientLoans = this.loanRepository.findByClientAndDateRange(
+                dto.getClientId(), dto.getLoanDate(), dto.getReturnDate());
+
+        if (dto.getId() != null) {
+            clientLoans = clientLoans.stream()
+                    .filter(l -> !l.getId().equals(dto.getId()))
+                    .collect(Collectors.toList());
+        }
+
+        if (clientLoans.size() >= 2) {
+            throw new Exception("El Cliente ya tiene el número máximo de préstamos en ese rango de fechas");
         }
 
         loan.setGame(game);
