@@ -64,6 +64,7 @@ public class LoanController {
         }
     }
 
+
     @Operation(summary = "Find By Id", description = "Get One de los prestamos")    
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Préstamo encontrado"),
