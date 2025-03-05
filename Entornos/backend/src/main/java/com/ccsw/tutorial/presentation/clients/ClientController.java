@@ -140,34 +140,34 @@ public class ClientController {
         } catch (Exception e) {
             throw new BusinessRuleException("Error actualizando el cliente: " + e.getMessage(), e);
         }
-    }
 
-    @Operation(summary = "Delete", description = "elimina un cliente")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Cliente eliminado correctamente"),
-        @ApiResponse(responseCode = "400", description = "ID de cliente inválido"),
-        @ApiResponse(responseCode = "404", description = "Cliente no encontrado"),
-        @ApiResponse(responseCode = "409", description = "No se puede eliminar el cliente porque tiene préstamos activos"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    })
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
-        if (id == null || id <= 0) {
-            throw new InvalidArgumentException("Client ID", id);
-        }
-        
-        try {
-            Client existingClient = this.clientService.findById(id);
-            if (existingClient == null) {
-                throw new EntityNotFoundException("Client", id);
+        @Operation(summary = "Delete", description = "elimina un cliente")
+        @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente eliminado correctamente"),
+            @ApiResponse(responseCode = "400", description = "ID de cliente inválido"),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado"),
+            @ApiResponse(responseCode = "409", description = "No se puede eliminar el cliente porque tiene préstamos activos"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+        @DeleteMapping("/{id}")
+        @ResponseStatus(HttpStatus.OK)
+        public void delete(@PathVariable("id") Long id) {
+            if (id == null || id <= 0) {
+                throw new InvalidArgumentException("Client ID", id);
             }
             
-            this.clientService.delete(id);
-        } catch (EntityNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new BusinessRuleException("Ha ocurrido un error al eliminar este cliente: " + e.getMessage(), e);
+            try {
+                Client existingClient = this.clientService.findById(id);
+                if (existingClient == null) {
+                    throw new EntityNotFoundException("Client", id);
+                }
+                
+                this.clientService.delete(id);
+            } catch (EntityNotFoundException e) {
+                throw new EntityNotFoundException("Client", id);
+            } catch (Exception e) {
+                throw new BusinessRuleException("Ha ocurrido un error al eliminar este cliente: " + e.getMessage(), e);
+            }
         }
     }
 }
