@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   
   categoryDistribution: any[] = [];
   recentLoans: any[] = [];
-
+  popularGames: any[] = [];
   
   constructor(
     private clientService: ClientService,
@@ -77,12 +77,31 @@ export class HomeComponent implements OnInit {
         }).length;
         console.log('Active loans:', this.activeLoans);
         
+        const gameLoanCounts = new Map();
+        results.loans.forEach(loan => {
+          const gameId = loan.gameId;
+          gameLoanCounts.set(gameId, (gameLoanCounts.get(gameId) || 0) + 1);
+        });
+        // console.log('Category counts:', categoryCounts);
+        
+        const maxLoans = Math.max(...Array.from(gameLoanCounts.values(), x => x || 0), 1);
+        this.popularGames = results.games.map(game => {
+          const loanCount = gameLoanCounts.get(game.id) || 0;
+          return {
+            id: game.id,
+            title: game.title,
+            age: game.age,
+            loanCount: loanCount,
+            percentage: Math.floor((loanCount / maxLoans) * 100)
+          };
+        }).sort((a, b) => b.loanCount - a.loanCount).slice(0, 5);
+
+
         const categoryCounts = new Map();
         results.games.forEach(game => {
           const catId = game.categoryId;
           categoryCounts.set(catId, (categoryCounts.get(catId) || 0) + 1);
         });
-        // console.log('Category counts:', categoryCounts);
         
         this.categoryDistribution = results.categories.map(category => {
           const count = categoryCounts.get(category.id) || 0;
@@ -93,6 +112,8 @@ export class HomeComponent implements OnInit {
             percentage: maxCount > 0 ? Math.floor((count / maxCount) * 100) : 0
           };
         }).sort((a, b) => b.count - a.count);
+
+
         // console.log('Category distribution:', this.categoryDistribution);
         
         const loanData = results.loans

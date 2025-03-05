@@ -5,21 +5,22 @@
         <a routerLink="/games" class="action-card">
             <mat-icon>casino</mat-icon>
             <span>Juegos</span>
-        </a>
-        <a routerLink="/clients" class="action-card">
-            <mat-icon>people</mat-icon>
-            <span>Clientes</span>
+            <h6>(Este es un link para probar el 404)</h6>
         </a>
         <a routerLink="/categories" class="action-card">
             <mat-icon>category</mat-icon>
             <span>Categorías</span>
+        </a>
+        <a routerLink="/clients" class="action-card">
+            <mat-icon>people</mat-icon>
+            <span>Clientes</span>
         </a>
         <a routerLink="/loans" class="action-card">
             <mat-icon>menu_book</mat-icon>
             <span>Préstamos</span>
         </a>
     </div>
-      
+        
     <!-- metricas cards -->
     <div class="metrics-section">
         <h2>Resumen de Actividad</h2>
@@ -31,7 +32,7 @@
                     <span>Juegos</span>
                 </div>
             </div>
-              
+
             <div class="metric-card">
                 <div class="metric-value">{{totalClients}}</div>
                 <div class="metric-label">
@@ -39,7 +40,7 @@
                     <span>Clientes</span>
                 </div>
             </div>
-              
+
             <div class="metric-card">
                 <div class="metric-value">{{totalLoans}}</div>
                 <div class="metric-label">
@@ -47,7 +48,7 @@
                     <span>Préstamos</span>
                 </div>
             </div>
-              
+            
             <div class="metric-card active">
                 <div class="metric-value">{{activeLoans}}</div>
                 <div class="metric-label">
@@ -57,22 +58,26 @@
             </div>
         </div>
     </div>
-      
+    
     <div class="info-panels">
-        <!-- metrica de las categorias -->
+        <!-- Juegos más populares -->
         <div class="info-panel">
-            <h3>Categorías Populares</h3>
+            <h3>Nuestros Juegos más Populares</h3>
+            <br/>
             <div class="category-list">
-                <div class="category-item" *ngFor="let category of categoryDistribution.slice(0, 5)">
-                    <div class="category-name">{{category.name}}</div>
+                <div class="category-item" *ngFor="let game of popularGames">
+                    <div class="category-name">{{game.title}} <small>(+{{game.age}})</small></div>
                     <div class="category-bar">
-                        <div class="bar-fill" [style.width.%]="category.percentage"></div>
+                        <div class="bar-fill" [style.width.%]="game.percentage / 2"></div>
                     </div>
-                    <div class="category-count">{{category.count}}</div>
+                    <div class="category-count">{{game.loanCount}} préstamos</div>
+                </div>
+                <div class="category-item" *ngIf="popularGames.length === 0">
+                    <div class="category-name">No hay datos de préstamos disponibles</div>
                 </div>
             </div>
         </div>
-          
+        
         <!--prestamos recientes -->
         <div class="info-panel">
             <h3>Préstamos Recientes</h3>
