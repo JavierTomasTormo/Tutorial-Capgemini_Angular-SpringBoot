@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { ClientFormComponent } from '../client-form/client-form.component';
-import { DialogConfirmationComponent } from '../../../../core/dialogs/dialog-confirmation/dialog-confirmation.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -62,17 +62,19 @@ export class ClientListComponent implements OnInit {
 
   deleteClient(client: Client): void {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
-      data: { 
-        title: "Eliminar Cliente", 
-        description: "Al aceptar esto estas eliminando un cliente, ¿Estás seguro?"
-      }
+        data: { 
+            title: "Eliminar Cliente", 
+            description: "Al aceptar esto estas eliminando un cliente, ¿Estás seguro?"
+        }
     });
     dialogRef.afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.clientService.delete(client.id!).subscribe(() => 
-          this.loadClients()
-        );
-      }
+        if (confirmed) {
+            this.clientService.delete(client.id!).subscribe({
+              next: () => {
+                this.loadClients();
+              }
+            });
+        }
     });
   }
 }

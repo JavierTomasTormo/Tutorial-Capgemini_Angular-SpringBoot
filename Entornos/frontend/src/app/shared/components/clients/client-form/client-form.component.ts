@@ -1,29 +1,20 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { Client } from '../../../../core/models/client/client.model';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common'; 
 
 @Component({
     selector: 'app-client-form',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule, 
-        MatFormFieldModule, 
-        MatInputModule, 
-        MatButtonModule
-    ],
+    imports: [CommonModule, FormsModule],
     templateUrl: './client-form.component.html',
     styleUrls: ['./client-form.component.scss']
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent implements OnInit, OnDestroy {
     client: Client;
+    nameError: string | null = null;
 
     constructor(
         public dialogRef: MatDialogRef<ClientFormComponent>,
@@ -32,30 +23,36 @@ export class ClientFormComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('Pre Init:', this.data);
+        document.body.classList.add('modal-open');
         
         if (this.data && this.data.id !== undefined) {
             this.client = new Client();
             this.client.id = this.data.id;
             this.client.name = this.data.name;
-            // console.log('', this.client);
         } else if (this.data && this.data.client) {
             this.client = Object.assign(new Client(), this.data.client);
-            // console.log('data.client:', this.client);
         } else {
             this.client = new Client();
-            // console.log('creado:', this.client);
         }
     }
 
-    onSave(): void {        
+    ngOnDestroy(): void {
+        document.body.classList.remove('modal-open');
+    }
+
+    onSave(): void {
+        if (!this.client.name || this.client.name.trim() === '') {
+            this.nameError = 'El nombre del cliente es obligatorio';
+            return;
+        }
+
         if (this.client.id) {
             this.clientService.update(this.client.id, this.client).subscribe({
                 next: () => {
                     this.dialogRef.close(true);
                 },
                 error: (error) => {
-                    alert('El nombre del cliente ya existe');
+                    this.nameError = 'Ya existe un cliente con este nombre';
                 }
             });
         } else {
@@ -64,13 +61,24 @@ export class ClientFormComponent implements OnInit {
                     this.dialogRef.close(true);
                 },
                 error: (error) => {
-                    alert('El nombre del cliente ya existe');
+                    this.nameError = 'Ya existe un cliente con este nombre';
                 }
             });
         }
     }
 
     onClose(): void {
-        this.dialogRef.close();
+        this.dialogRef.close(false);
+    }
+  
+    onBackdropClick(event: MouseEvent): void {
+        if ((event.target as HTMLElement).className === 'modal-overlay') {
+            this.onClose();
+        }
+    }
+  
+    @HostListener('document:keydown.escape')
+    onEscapePress(): void {
+        this.onClose();
     }
 }

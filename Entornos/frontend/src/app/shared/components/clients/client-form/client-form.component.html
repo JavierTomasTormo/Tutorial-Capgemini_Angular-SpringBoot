@@ -1,21 +1,55 @@
-<div class="container">
-    <h1>{{ client.id ? 'Modificar cliente' : 'Crear cliente' }}</h1>
-  
-    <form>
-        <mat-form-field>
-            <mat-label>Identificador</mat-label>
-            <input type="text" matInput placeholder="Identificador" [value]="client.id" name="id" disabled>
-        </mat-form-field>
+<div class="modal-overlay" (click)="onBackdropClick($event)">
+    <div class="modal-container">
+        <div class="modal-header" [ngClass]="{'create-header': !client.id, 'edit-header': client.id}">
+            <h2>
+                <span class="header-icon">{{client.id ? '✎' : '+'}}</span>
+                {{client.id ? 'Modificar cliente' : 'Crear nuevo cliente'}}
+            </h2>
+            <button class="btn-close" (click)="onClose()" title="Cerrar">×</button>
+        </div>
 
-        <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input type="text" matInput placeholder="Nombre del cliente" [(ngModel)]="client.name" name="name" required>
-            <mat-error>El nombre no puede estar vacío</mat-error>
-        </mat-form-field>
-    </form>
+        <div class="modal-content">
+            <form #clientForm="ngForm">
+                @if (client.id) {
+                    <div class="form-group">
+                        <label for="clientId">Identificador</label>
+                        <input type="text" id="clientId" name="id" 
+                                [(ngModel)]="client.id" disabled
+                                class="form-control disabled">
+                        <small class="form-hint">El identificador no se puede modificar</small>
+                    </div>
+                }
 
-    <div class="buttons">
-        <button mat-stroked-button (click)="onClose()">Cerrar</button>
-        <button mat-flat-button color="primary" (click)="onSave()">{{ client.id ? 'Actualizar' : 'Crear' }}</button>
+                <div class="form-group">
+                    <label for="clientName">Nombre de cliente</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="clientName" name="name" required
+                                [(ngModel)]="client.name" #nameInput="ngModel"
+                                class="form-control" [class.invalid]="nameInput.invalid && (nameInput.dirty || nameInput.touched)"
+                                placeholder="Ingrese el nombre del cliente">
+                        <span class="input-icon">👤</span>
+                    </div>
+                    @if (nameInput.invalid && (nameInput.dirty || nameInput.touched)) {
+                        <div class="error-message">El nombre de cliente es obligatorio</div>
+                    }
+                    @if (nameError) {
+                        <div class="error-message">{{ nameError }}</div>
+                    }
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="onClose()">
+                <span class="btn-icon">✕</span>
+                Cancelar
+            </button>
+            <button class="btn-primary" [disabled]="clientForm.invalid" 
+                    [class.disabled]="clientForm.invalid"
+                    (click)="onSave()">
+                <span class="btn-icon">💾</span>
+                Guardar
+            </button>
+        </div>
     </div>
 </div>

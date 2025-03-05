@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../../core/services/category/category.service';
 import { Category } from '../../../../core/models/category/category.model';
 import { CategoryEditComponent } from '../category-edit/category-edit.component';
-import { DialogConfirmationComponent } from '../../../../core/dialogs/dialog-confirmation/dialog-confirmation.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
