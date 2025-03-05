@@ -1,5 +1,6 @@
 export interface LoanSearchDto {
     gameId?: number;
     clientId?: number;
-    date?: string;
+    loanDate?: string;
+    returnDate?: string;
 }

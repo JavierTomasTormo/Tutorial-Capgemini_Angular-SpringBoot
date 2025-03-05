@@ -44,10 +44,10 @@ public class LoanController {
         if (dto == null) {
             throw new InvalidArgumentException("Search criteria cannot be null");
         }
-        
+
         try {
             List<Loan> loans = this.loanService.findByArgs(dto);
-            
+
             return loans.stream()
                     .map(loan -> {
                         LoanDto loanDto = new LoanDto();

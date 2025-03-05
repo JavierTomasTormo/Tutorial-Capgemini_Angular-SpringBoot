@@ -52,21 +52,21 @@ export class LoanListComponent implements OnInit {
           clientName: client ? client.name : 'Unknown Client'
         };
       });
-      console.log('Loans', this.loans);  
+      // console.log('Loans', this.loans);  
     });
   }
 
   loadGames(): void {
     this.gameService.getAll().subscribe(data => {
       this.games = data;
-      console.log('Games', this.games);
+      // console.log('Games', this.games);
     });
   }
 
   loadClients(): void {
     this.clientService.getAll().subscribe(data => {
       this.clients = data;
-      console.log('Clients', this.clients);
+      // console.log('Clients', this.clients);
     });
   }
 

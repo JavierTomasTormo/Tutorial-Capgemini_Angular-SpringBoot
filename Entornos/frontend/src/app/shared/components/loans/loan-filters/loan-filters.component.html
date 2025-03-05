@@ -1,0 +1,32 @@
+<form (ngSubmit)="onApplyFilters()" class="filters-row">
+  <div class="form-group">
+    <label for="gameId">Juego</label>
+    <select id="gameId" [(ngModel)]="filters.gameId" name="gameId" class="form-control">
+      <option value="" selected>Todos los Juegos Disponibles</option>
+      <option *ngFor="let game of games" [value]="game.id">{{ game.title }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="clientId">Cliente</label>
+    <select id="clientId" [(ngModel)]="filters.clientId" name="clientId" class="form-control">
+      <option value="" selected>Todos los Clientes</option>
+      <option *ngFor="let client of clients" [value]="client.id">{{ client.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="loanDate">Fecha de Inicio</label>
+    <input type="date" id="loanDate" [(ngModel)]="filters.loanDate" name="loanDate" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="returnDate">Fecha de Fin</label>
+    <input type="date" id="returnDate" [(ngModel)]="filters.returnDate" name="returnDate" class="form-control">
+  </div>
+
+  <div class="form-group buttons-group">
+    <button type="submit" class="btn btn-primary">Aplicar</button>
+    <button type="button" class="btn btn-secondary" (click)="onClearFilters()">Limpiar</button>
+  </div>
+</form>
