@@ -9,7 +9,7 @@ import { GameService } from '../../../../core/services/game/game.service';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { LoanFiltersComponent } from '../loan-filters/loan-filters.component';
 import { LoanListTableComponent } from '../loan-list-table/loan-list-table.component';
-
+import { PaginationComponent } from '../../layout/pagination/pagination.component';
 
 @Component({
   selector: 'app-loan-list',
@@ -18,7 +18,8 @@ import { LoanListTableComponent } from '../loan-list-table/loan-list-table.compo
     CommonModule,
     FormsModule,
     LoanFiltersComponent,
-    LoanListTableComponent
+    LoanListTableComponent,
+    PaginationComponent
   ],
   templateUrl: './loan-list.component.html',
   styleUrls: ['./loan-list.component.scss']
@@ -28,12 +29,15 @@ export class LoanListComponent implements OnInit {
   games: any[] = [];
   clients: any[] = [];
   filters: any = {};
+  totalItems: number = 0;
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
 
   constructor(
     private loanService: LoanService,
     private gameService: GameService,
     private clientService: ClientService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -43,8 +47,14 @@ export class LoanListComponent implements OnInit {
   }
 
   loadLoans(): void {
-    this.loanService.search(this.filters).subscribe(data => {
-      this.loans = data.map(loan => {
+    const params = {
+      ...this.filters,
+      page: this.currentPage - 1,
+      size: this.itemsPerPage
+    };
+
+    this.loanService.search(params).subscribe(data => {
+      this.loans = data.content.map(loan => {
         const game = this.games.find(g => g.id === loan.gameId);
         const client = this.clients.find(c => c.id === loan.clientId);
         return {
@@ -53,31 +63,44 @@ export class LoanListComponent implements OnInit {
           clientName: client ? client.name : 'Unknown Client'
         };
       });
-      // console.log('Loans', this.loans);  
+      this.totalItems = data.totalElements;
+      console.log('Loans:', this.loans);
     });
   }
 
   loadGames(): void {
     this.gameService.getAll().subscribe(data => {
       this.games = data;
-      // console.log('Games', this.games);
     });
   }
 
   loadClients(): void {
     this.clientService.getAll().subscribe(data => {
       this.clients = data;
-      // console.log('Clients', this.clients);
     });
   }
 
   applyFilters(): void {
+    this.currentPage = 1;
     this.loadLoans();
   }
 
   clearFilters(): void {
     this.filters = {};
+    this.currentPage = 1;
     this.loadLoans();
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadLoans();
+    console.log(`Page changed to: ${this.currentPage}`);
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.itemsPerPage = itemsPerPage;
+    this.loadLoans();
+    console.log(`Items per page changed to: ${this.itemsPerPage}`);
   }
 
   deleteLoan(loan: Loan): void {

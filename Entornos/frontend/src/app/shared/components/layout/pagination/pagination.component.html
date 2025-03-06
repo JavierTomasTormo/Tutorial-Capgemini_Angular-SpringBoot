@@ -1,0 +1,8 @@
+<div class="pagination-container">
+  <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{currentPage}} de {{totalPages}}</span>
+  <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
+  <select (change)="onItemsPerPageChange($event.target.value)" [value]="itemsPerPage">
+    <option *ngFor="let option of [5, 10, 20, 50]" [value]="option" class="selector">{{option}} por página</option>
+  </select>
+</div>

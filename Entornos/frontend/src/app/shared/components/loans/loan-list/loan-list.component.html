@@ -13,4 +13,12 @@
     [loans]="loans"
     (deleteLoan)="deleteLoan($event)">
   </app-loan-list-table>
+
+  <app-pagination
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-pagination>
 </div>

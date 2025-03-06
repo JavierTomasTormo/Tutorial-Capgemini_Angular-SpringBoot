@@ -74,7 +74,7 @@ export class LoanCreateComponent implements OnInit {
     }
 
     this.loanService.search({ gameId: loanData.gameId, loanDate: loanData.loanDate, returnDate: loanData.returnDate }).subscribe(existingLoans => {
-      if (existingLoans.length > 0) {
+      if (existingLoans.content.length > 0) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
