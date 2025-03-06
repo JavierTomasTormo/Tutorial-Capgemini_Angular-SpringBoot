@@ -10,10 +10,18 @@ import com.ccsw.tutorial.presentation.loans.model.LoanSearchDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+
+
+
+
+
 
 @Service
 @Transactional
@@ -35,8 +43,8 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Loan> findByArgs(LoanSearchDto dto) {
-        return this.loanRepository.findByFilters(dto.getGameId(), dto.getClientId(), dto.getLoanDate(), dto.getReturnDate());
+    public Page<Loan> findByArgs(LoanSearchDto dto, Pageable pageable) {
+        return this.loanRepository.findByFilters(dto.getGameId(), dto.getClientId(), dto.getLoanDate(), dto.getReturnDate(), pageable);
     }
 
     @Override

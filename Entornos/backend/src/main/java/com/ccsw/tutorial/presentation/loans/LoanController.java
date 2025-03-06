@@ -15,11 +15,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+
 
 @Tag(name = "Loan", description = "API de los Loan")
 @RequestMapping(value = "/loans")
@@ -40,25 +46,26 @@ public class LoanController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping("/search")
-    public List<LoanDto> find(@RequestBody LoanSearchDto dto) {
+    public Page<LoanDto> find(@RequestBody LoanSearchDto dto,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "5") int size) {
         if (dto == null) {
             throw new InvalidArgumentException("Search criteria cannot be null");
         }
 
         try {
-            List<Loan> loans = this.loanService.findByArgs(dto);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Loan> loans = this.loanService.findByArgs(dto, pageable);
 
-            return loans.stream()
-                    .map(loan -> {
-                        LoanDto loanDto = new LoanDto();
-                        loanDto.setId(loan.getId());
-                        loanDto.setGameId(loan.getGame().getId());
-                        loanDto.setClientId(loan.getClient().getId());
-                        loanDto.setLoanDate(loan.getLoanDate());
-                        loanDto.setReturnDate(loan.getReturnDate());
-                        return loanDto;
-                    })
-                    .collect(Collectors.toList());
+            return loans.map(loan -> {
+                LoanDto loanDto = new LoanDto();
+                loanDto.setId(loan.getId());
+                loanDto.setGameId(loan.getGame().getId());
+                loanDto.setClientId(loan.getClient().getId());
+                loanDto.setLoanDate(loan.getLoanDate());
+                loanDto.setReturnDate(loan.getReturnDate());
+                return loanDto;
+            });
         } catch (Exception e) {
             throw new BusinessRuleException("Error searching loans: " + e.getMessage(), e);
         }

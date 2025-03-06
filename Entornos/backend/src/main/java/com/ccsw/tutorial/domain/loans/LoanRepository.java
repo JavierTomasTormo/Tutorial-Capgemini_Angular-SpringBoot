@@ -1,5 +1,7 @@
 package com.ccsw.tutorial.domain.loans;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,11 +14,12 @@ import java.util.List;
 public interface LoanRepository extends CrudRepository<Loan, Long> {
 
     @Query("select l from Loan l where (:gameId is null or l.game.id = :gameId) and (:clientId is null or l.client.id = :clientId) and (:loanDate is null or l.loanDate >= :loanDate) and (:returnDate is null or l.returnDate <= :returnDate)")
-    List<Loan> findByFilters(
+    Page<Loan> findByFilters(
             @Param("gameId") Long gameId,
             @Param("clientId") Long clientId,
             @Param("loanDate") LocalDate loanDate,
-            @Param("returnDate") LocalDate returnDate
+            @Param("returnDate") LocalDate returnDate,
+            Pageable pageable
     );
 
     @Query("select l from Loan l where l.client.id = :clientId")
