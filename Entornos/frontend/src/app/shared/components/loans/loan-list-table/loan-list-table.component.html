@@ -18,9 +18,6 @@
             <td>{{loan.loanDate | date:'dd/MM/yyyy'}}</td>
             <td>{{loan.returnDate | date:'dd/MM/yyyy'}}</td>
             <td class="actions-cell">
-                <button class="action-button edit" title="Editar préstamo">
-                    <span class="action-icon">✎</span>
-                </button>
                 <button class="action-button delete" (click)="onDeleteLoan(loan)" title="Eliminar préstamo">
                     <span class="action-icon">✕</span>
                 </button>

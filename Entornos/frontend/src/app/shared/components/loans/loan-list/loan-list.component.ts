@@ -10,6 +10,7 @@ import { ClientService } from '../../../../core/services/client/client.service';
 import { LoanFiltersComponent } from '../loan-filters/loan-filters.component';
 import { LoanListTableComponent } from '../loan-list-table/loan-list-table.component';
 
+
 @Component({
   selector: 'app-loan-list',
   standalone: true,
@@ -32,7 +33,7 @@ export class LoanListComponent implements OnInit {
     private loanService: LoanService,
     private gameService: GameService,
     private clientService: ClientService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {

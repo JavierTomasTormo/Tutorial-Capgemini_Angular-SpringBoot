@@ -1,0 +1,52 @@
+<div class="loan-create-container">
+  <h2>Crear Préstamo</h2>
+  <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="id">Identificador</label>
+      <input type="text" id="id" formControlName="id" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="gameId">Juego</label>
+      <select id="gameId" formControlName="gameId" class="form-control">
+        <option value="" disabled selected>Seleccione un juego</option>
+        <option *ngFor="let game of games" [value]="game.id">{{ game.title }}</option>
+      </select>
+      <div *ngIf="loanForm.get('gameId')?.invalid && loanForm.get('gameId')?.touched" class="error-message">
+        El juego es obligatorio.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="clientId">Cliente</label>
+      <select id="clientId" formControlName="clientId" class="form-control">
+        <option value="" disabled selected>Seleccione un cliente</option>
+        <option *ngFor="let client of clients" [value]="client.id">{{ client.name }}</option>
+      </select>
+      <div *ngIf="loanForm.get('clientId')?.invalid && loanForm.get('clientId')?.touched" class="error-message">
+        El cliente es obligatorio.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="loanDate">Fecha de Inicio</label>
+      <input type="date" id="loanDate" formControlName="loanDate" class="form-control">
+      <div *ngIf="loanForm.get('loanDate')?.invalid && loanForm.get('loanDate')?.touched" class="error-message">
+        La fecha de inicio es obligatoria.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="returnDate">Fecha de Fin</label>
+      <input type="date" id="returnDate" formControlName="returnDate" class="form-control">
+      <div *ngIf="loanForm.get('returnDate')?.invalid && loanForm.get('returnDate')?.touched" class="error-message">
+        La fecha de fin es obligatoria.
+      </div>
+    </div>
+
+    <div class="form-group buttons-group">
+      <button type="submit" class="btn btn-primary" [disabled]="loanForm.invalid">Crear Préstamo</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/loans'])">Cancelar</button>
+    </div>
+  </form>
+</div>

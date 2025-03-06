@@ -26,7 +26,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             errorMessage = 'Recurso no encontrado';
             break;
           case 409:
-            errorMessage = 'Conflicto, el usuario tiene prestamos activos';
+            errorMessage = 'Conflicto, el usuario tiene mas de 2 prestamos activos';
             break;
           case 500:
             errorMessage = 'Error interno del servidor';

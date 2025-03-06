@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-loan-filters',
@@ -16,6 +18,10 @@ export class LoanFiltersComponent {
   @Input() filters: any = {};
   @Output() applyFilters = new EventEmitter<void>();
   @Output() clearFilters = new EventEmitter<void>();
+
+  constructor(
+    public router: Router
+  ) { }
 
   onApplyFilters(): void {
     const loanDate = new Date(this.filters.loanDate);
